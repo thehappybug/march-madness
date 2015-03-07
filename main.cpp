@@ -2,77 +2,101 @@
 #include "Team.hpp"
 #include "Game.hpp"
 #include <iostream>
-#include <assert.h>
+#include <string>
+#include <cstdlib>
+#include <algorithm>
+#include <map>
 
 using namespace std;
 
-// int main(int argc, char const *argv[])
-// {
-// 	CSVParser parse("data/teams.csv");
-// 	parse.skip();
-// 	while(parse.good()) {
-// 		std::vector<std::string> row = parse.next();
-// 		cout << row[0] << ", " << row[1] << endl;
-// 	}
-// 	return 0;
-// }
-
-/**
-Home			Score	Away			Score
-Syracuse		78		North Carolina	72
-Syracuse		82		Maryland		68
-Wake Forest		71		Syracuse		72
-North Carolina	93		Syracuse		68
-Maryland		81		Wake Forest		72
-Wake Forest		52		North Carolina	68
-
- */
-
 int main(int argc, char const *argv[])
 {
-	Team *Syracuse = new Team(0, "Syracuse");
-	Team *North = new Team(1, "North Carolina");
-	Team *Maryland = new Team(2, "Maryland");
-	Team *Wake = new Team(3, "Wake Forest");
+	if(argc < 2) {
+		cout << "Incorrect arguments." << endl;
+		cout << "./madness <command> <arguments, ...>" << endl;
+		return 1;
+	}
 
-	Game *game = new Game(Syracuse, North, 78, 72);
-	assert(game->winner() == Syracuse);
-	assert(game->loser() == North);
-	assert(game->winner()->gamesWon()[0] == game);
-	assert(game->loser()->gamesPlayed()[0] == game);
+	string command = string(argv[1]);
 
-	game = new Game(Syracuse, Maryland, 82, 68);
-	game = new Game(Syracuse, Wake, 72, 71);
-	game = new Game(North, Syracuse, 93, 68);
-	game = new Game(Maryland, Wake, 81, 72);
-	game = new Game(North, Wake, 68, 52);
+	if(command == "rpiChampion") {
+		if(argc < 3) {
+			cout << "Usage: ./madness rpiChampion <season>" << endl;
+			return 1;
+		}
 
-	cout << Syracuse->winningPercentage() << endl;
-	cout << North->winningPercentage() << endl;
-	cout << Maryland->winningPercentage() << endl;
-	cout << Wake->winningPercentage() << endl;
+		string seasonName(argv[2]);
+		string seasonId = "";
 
-	cout << "OWP" << endl;
-	// cout << North->winningPercentageExcluding(Syracuse) << endl;
-	// cout << North->winningPercentageExcluding(Syracuse) << endl;
-	// cout << Maryland->winningPercentageExcluding(Syracuse) << endl;
-	// cout << Wake->winningPercentageExcluding(Syracuse) << endl;
-	cout << Syracuse->opponentsWinningPercentage() << endl;
-	cout << North->opponentsWinningPercentage() << endl;
-	cout << Maryland->opponentsWinningPercentage() << endl;
-	cout << Wake->opponentsWinningPercentage() << endl;
+		CSVParser seasonsData("data/seasons.csv");
+		if(seasonsData.fail()) {
+			cout << "Failed to open file data/seasons.csv" << endl;
+			return 1;
+		}
+		seasonsData.skip();
 
-	cout << "OOWP" << endl;
-	cout << Syracuse->opponentsOpponentsWinningPercentage() << endl;
-	cout << North->opponentsOpponentsWinningPercentage() << endl;
-	cout << Maryland->opponentsOpponentsWinningPercentage() << endl;
-	cout << Wake->opponentsOpponentsWinningPercentage() << endl;
+		while(seasonsData.good()) {
+			std::vector<string> row = seasonsData.next();
+			if(row.size() && row[1] == seasonName) {
+				seasonId = row[0];
+			}
+		}
 
-	cout << "RPI" << endl;
-	cout << Syracuse->ratingsPercentageIndex() << endl;
-	cout << North->ratingsPercentageIndex() << endl;
-	cout << Maryland->ratingsPercentageIndex() << endl;
-	cout << Wake->ratingsPercentageIndex() << endl;
+		if (seasonId == "")
+		{
+			cout << "Unknown season" << endl;
+			return 1;
+		}
 
+
+		std::map<int, Team *> teams;
+
+		CSVParser teamsData("data/teams.csv");
+		if(teamsData.fail()) {
+			cout << "Failed to open file data/teams.csv" << endl;
+			return 1;
+		}
+		teamsData.skip();
+
+		while(teamsData.good()) {
+			std::vector<string> row;
+			row = teamsData.next();
+			int id = atoi(row[0].c_str());
+			teams[id] = new Team(id, row[1]);
+			// cout << id << row[1] << endl;
+		}
+
+		CSVParser gamesData("data/regular_tourney_combined_results.csv");
+		if(gamesData.fail()) {
+			cout << "Failed to open file data/regular_tourney_combined_results.csv" << endl;
+			return 1;
+		}
+		gamesData.skip();
+
+		while(gamesData.good()) {
+			std::vector<string> row;
+			row = gamesData.next();
+			if(row[0] != seasonId) {
+				// cout << teams[atoi(row[2].c_str())]->name() << " vs " << teams[atoi(row[4].c_str())]->name() << endl;
+				Game *game = new Game(teams[atoi(row[2].c_str())], teams[atoi(row[4].c_str())], atoi(row[3].c_str()), atoi(row[5].c_str()));
+			}
+		}
+
+		Team *champ = NULL;
+		float max = -1;
+		// cout << champ->name() << endl;
+
+		for_each(teams.begin(), teams.end(), [&champ, &max](pair<int, Team *> a) {
+			// cout << a.second->ratingsPercentageIndex() ;
+			// cout << champ->ratingsPercentageIndex() ;
+			if(a.second->ratingsPercentageIndex() > max) {
+				champ = a.second;
+				max = a.second->ratingsPercentageIndex();
+				// cout << a.second->name() << endl;
+			}
+		});
+
+		cout << champ->name() << endl;
+	}
 	return 0;
 }

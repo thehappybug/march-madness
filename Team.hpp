@@ -13,6 +13,8 @@ private:
 	int _id;
 	std::string _name;
 	float _owp;
+	float _oowp;
+	float _rpi;
 	std::vector<Game *> _gamesWon;
 	std::vector<Game *> _gamesPlayed;
 public:

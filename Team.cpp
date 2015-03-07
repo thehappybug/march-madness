@@ -12,6 +12,7 @@ Team::Team(int id, string name)
 	_id = id;
 	_name = name;
 	_owp = -1;
+	_rpi = -1;
 }
 
 int Team::id()
@@ -32,6 +33,7 @@ void Team::addGame(Game *game)
 	}
 	_gamesPlayed.push_back(game);
 	_owp = -1;
+	_rpi = -1;
 }
 
 std::vector<Game *> Team::gamesWon()
@@ -100,9 +102,14 @@ float Team::opponentsOpponentsWinningPercentage()
 
 float Team::ratingsPercentageIndex()
 {
-	return this->winningPercentage() * 0.25	+
+	if (_rpi != -1)
+	{
+		return _rpi;
+	}
+	_rpi = this->winningPercentage() * 0.25	+
 		   this->opponentsWinningPercentage() * 0.5 +
 		   this->opponentsOpponentsWinningPercentage() * 0.25;
+    return _rpi;
 }
 
 Team::~Team()
