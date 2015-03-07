@@ -1,6 +1,8 @@
 #ifndef Game_H_
 #define Game_H_
 
+class Game;
+
 #include "Team.hpp"
 
 class Game
@@ -15,6 +17,8 @@ public:
 	Team *winner();
 	Team *loser();
 	bool isWinner(Team *team);
+	bool isPlayer(Team *team);
+	Team *otherPlayer(Team *team);
 	int winningScore();
 	int losingScore();
 	~Game();
