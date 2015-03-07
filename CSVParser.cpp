@@ -85,6 +85,8 @@ std::vector<std::string> CSVParser::next()
             ss << c;
         }
     }
+    std::vector<std::string> a;
+    return a;
 }
 
 CSVParser::~CSVParser()

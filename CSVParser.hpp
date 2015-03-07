@@ -18,7 +18,6 @@ public:
 	bool good();
 	bool fail();
 	std::vector<std::string> next();
-	void close();
 	~CSVParser();
 };
 

@@ -22,7 +22,7 @@ USER_DIR = ./
 # Flags passed to the preprocessor.
 # Set Google Test's header directory as a system directory, such that
 # the compiler doesn't generate warnings in Google Test headers.
-CPPFLAGS += -std=c++11 -isystem $(GTEST_DIR)/include
+CPPFLAGS += -std=gnu++11 -isystem $(GTEST_DIR)/include
 
 # Flags passed to the C++ compiler.
 CXXFLAGS += -g -Wall -Wextra -pthread
@@ -47,7 +47,7 @@ clean :
 
 # Usually you shouldn't tweak such internal variables, indicated by a
 # trailing _.
-GTEST_SRCS_ = $(GTEST_DIR)/src/*.cpp $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
+GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
 
 # For simplicity and to avoid depending on Google Test's
 # implementation details, the dependencies specified below are
@@ -55,11 +55,11 @@ GTEST_SRCS_ = $(GTEST_DIR)/src/*.cpp $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
 # compiles fast and for ordinary users its source rarely changes.
 gtest-all.o : $(GTEST_SRCS_)
 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
-            $(GTEST_DIR)/src/gtest-all.cpp
+            $(GTEST_DIR)/src/gtest-all.cc
 
 gtest_main.o : $(GTEST_SRCS_)
 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
-            $(GTEST_DIR)/src/gtest_main.cpp
+            $(GTEST_DIR)/src/gtest_main.cc
 
 gtest.a : gtest-all.o
 	$(AR) $(ARFLAGS) $@ $^
@@ -83,11 +83,10 @@ CSVParser.o : $(USER_DIR)/CSVParser.cpp $(USER_DIR)/CSVParser.hpp $(GTEST_HEADER
 main.o : $(USER_DIR)/main.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/main.cpp
 
-unittest.o : $(USER_DIR)/unittest.cpp \
-                     $(USER_DIR)/sample1.hpp $(GTEST_HEADERS)
+unittest.o : $(USER_DIR)/unittest.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/unittest.cpp
 
-unittest : sample1.o unittest.o gtest_main.a
+unittest : unittest.o Team.o Game.o CSVParser.o gtest_main.a
 ifndef GTEST_DIR
 	$(info Enviroment variable GTEST_DIR needs to be set before compilation.)
 	exit 1
