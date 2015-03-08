@@ -12,8 +12,9 @@ private:
 	Team *_loser;
 	int _winningScore;
 	int _losingScore;
+	char _turf;
 public:
-	Game(Team *winner, Team *loser, int winningScore, int losingScore);
+	Game(Team *winner, Team *loser, int winningScore, int losingScore, char turf);
 	Team *winner();
 	Team *loser();
 	bool isWinner(Team *team);
@@ -21,6 +22,7 @@ public:
 	Team *otherPlayer(Team *team);
 	int winningScore();
 	int losingScore();
+	char turf();
 	~Game();
 };
 

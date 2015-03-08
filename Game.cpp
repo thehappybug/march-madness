@@ -4,12 +4,13 @@
 
 using namespace std;
 
-Game::Game(Team *winner, Team *loser, int winningScore, int losingScore)
+Game::Game(Team *winner, Team *loser, int winningScore, int losingScore, char turf)
 {
 	_winner = winner;
 	_loser = loser;
 	_winningScore = winningScore;
 	_losingScore = losingScore; 
+	_turf = turf;
 	winner->addGame(this);
 	loser->addGame(this);
 }
@@ -57,6 +58,11 @@ int Game::winningScore()
 int Game::losingScore()
 {
 	return _losingScore;
+}
+
+char Game::turf()
+{
+	return _turf;
 }
 
 Game::~Game()

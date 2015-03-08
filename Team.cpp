@@ -50,7 +50,38 @@ float Team::winningPercentage()
 {
 	// cout << _gamesPlayed.size();
 	// cout << _gamesWon.size();
-	return (float)_gamesWon.size() / (float)_gamesPlayed.size() ;
+	// return (float)_gamesWon.size() / (float)_gamesPlayed.size() ;
+	float won = 0;
+	float played = 0;
+
+	for (std::vector<Game *>::iterator i = _gamesPlayed.begin(); i != _gamesPlayed.end(); ++i)
+	{
+		float sc = 0;
+		if((*i)->isWinner(this)) {
+			if ((*i)->turf() == 'A')
+			{
+				won += 	1.4;
+				played += 	1.4;
+			} else if (((*i)->turf() == 'H')) {
+				won += 	0.6;
+				played += 	0.6;				
+			} else {
+				won += 	1;
+				played += 	1;								
+			}
+		
+		} else {
+			if ((*i)->turf() == 'A')
+			{
+				played += 	1.4;
+			} else if (((*i)->turf() == 'H')) {
+				played += 	0.6;				
+			} else {
+				played += 	1;								
+			}			
+		}
+	}
+	return won/played;
 }
 
 float Team::winningPercentageExcluding(Team *excludedTeam)

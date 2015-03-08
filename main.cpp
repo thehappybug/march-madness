@@ -37,6 +37,8 @@ int main(int argc, char const *argv[])
 
 		while(seasonsData.good()) {
 			std::vector<string> row = seasonsData.next();
+			if(row.size())
+				// cout << row[0] << " " << row[1];
 			if(row.size() && row[1] == seasonName) {
 				seasonId = row[0];
 			}
@@ -47,6 +49,8 @@ int main(int argc, char const *argv[])
 			cout << "Unknown season" << endl;
 			return 1;
 		}
+
+		// cout << "Season " << seasonId << endl;
 
 
 		std::map<int, Team *> teams;
@@ -60,7 +64,9 @@ int main(int argc, char const *argv[])
 
 		while(teamsData.good()) {
 			std::vector<string> row;
+			// cout << "Attempt read" << endl;
 			row = teamsData.next();
+			// cout << row.size() << endl;
 			int id = atoi(row[0].c_str());
 			teams[id] = new Team(id, row[1]);
 			// cout << id << row[1] << endl;
@@ -73,13 +79,22 @@ int main(int argc, char const *argv[])
 		}
 		gamesData.skip();
 
+		// cout << "Reading game data" << endl;
+
+		int gamesCount = 0;
 		while(gamesData.good()) {
 			std::vector<string> row;
 			row = gamesData.next();
-			if(row[0] != seasonId) {
+			if(row.size() && row[0] == seasonId) {
 				// cout << teams[atoi(row[2].c_str())]->name() << " vs " << teams[atoi(row[4].c_str())]->name() << endl;
-				Game *game = new Game(teams[atoi(row[2].c_str())], teams[atoi(row[4].c_str())], atoi(row[3].c_str()), atoi(row[5].c_str()));
+				Game *game = new Game(teams[atoi(row[2].c_str())], teams[atoi(row[4].c_str())], atoi(row[3].c_str()), atoi(row[5].c_str()), row[6].c_str()[0]);
+				gamesCount++;
 			}
+		}
+
+		if(gamesCount == 0) {
+			cout << "No data for this season." << endl;
+			return 0;
 		}
 
 		Team *champ = NULL;
@@ -89,6 +104,7 @@ int main(int argc, char const *argv[])
 		for_each(teams.begin(), teams.end(), [&champ, &max](pair<int, Team *> a) {
 			// cout << a.second->ratingsPercentageIndex() ;
 			// cout << champ->ratingsPercentageIndex() ;
+			// cout << a.second->name() << " " << a.second->ratingsPercentageIndex() << ", " << a.second->winningPercentage() << ", " << a.second->opponentsWinningPercentage() << ", " << a.second->opponentsOpponentsWinningPercentage() << endl;
 			if(a.second->ratingsPercentageIndex() > max) {
 				champ = a.second;
 				max = a.second->ratingsPercentageIndex();
@@ -96,7 +112,8 @@ int main(int argc, char const *argv[])
 			}
 		});
 
-		cout << champ->name() << endl;
+		// cout << champ->name() << " " << champ->ratingsPercentageIndex() << endl;
+		cout << champ->name()<< endl;
 	}
 	return 0;
 }
