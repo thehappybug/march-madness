@@ -25,6 +25,7 @@ public:
 	std::vector<Game *> gamesWon();
 	std::vector<Game *> gamesPlayed();
 	float winningPercentage();
+	float weightedWinningPercentage();
 	float winningPercentageExcluding(Team *excludedTeam);
 	float opponentsWinningPercentage();
 	float opponentsOpponentsWinningPercentage();

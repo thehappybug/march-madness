@@ -48,15 +48,16 @@ std::vector<Game *> Team::gamesPlayed()
 
 float Team::winningPercentage()
 {
-	// cout << _gamesPlayed.size();
-	// cout << _gamesWon.size();
-	// return (float)_gamesWon.size() / (float)_gamesPlayed.size() ;
+	return (float)_gamesWon.size() / (float)_gamesPlayed.size();
+}
+
+float Team::weightedWinningPercentage()
+{
 	float won = 0;
 	float played = 0;
 
 	for (std::vector<Game *>::iterator i = _gamesPlayed.begin(); i != _gamesPlayed.end(); ++i)
 	{
-		float sc = 0;
 		if((*i)->isWinner(this)) {
 			if ((*i)->turf() == 'A')
 			{
@@ -137,7 +138,7 @@ float Team::ratingsPercentageIndex()
 	{
 		return _rpi;
 	}
-	_rpi = this->winningPercentage() * 0.25	+
+	_rpi = this->weightedWinningPercentage() * 0.25	+
 		   this->opponentsWinningPercentage() * 0.5 +
 		   this->opponentsOpponentsWinningPercentage() * 0.25;
     return _rpi;
