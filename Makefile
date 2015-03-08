@@ -80,6 +80,9 @@ Game.o : $(USER_DIR)/Game.cpp $(USER_DIR)/Game.hpp $(USER_DIR)/Team.hpp $(GTEST_
 CSVParser.o : $(USER_DIR)/CSVParser.cpp $(USER_DIR)/CSVParser.hpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/CSVParser.cpp
 
+GameDataAdapter.o : $(USER_DIR)/GameDataAdapter.cpp $(USER_DIR)/GameDataAdapter.hpp $(USER_DIR)/Game.hpp $(USER_DIR)/Team.hpp $(USER_DIR)/CSVParser.hpp $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/GameDataAdapter.cpp
+
 main.o : $(USER_DIR)/main.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/main.cpp
 
@@ -93,5 +96,5 @@ ifndef GTEST_DIR
 endif
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
-main: Team.o Game.o CSVParser.o main.o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o madness main.o Team.o Game.o CSVParser.o
+main: Team.o Game.o CSVParser.o GameDataAdapter.o main.o
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o madness main.o Team.o Game.o CSVParser.o GameDataAdapter.o
