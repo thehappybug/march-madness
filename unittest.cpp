@@ -69,13 +69,13 @@ TEST(CSVParserTests, SkipARow) {
   		Maryland = new Team(2, "Maryland");
   		Wake = new Team(3, "Wake Forest"); 
 
-		game = new Game(Syracuse, North, 78, 72);
-  		Game *game0 = new Game(Syracuse, Maryland, 82, 68);
+		game = new Game(Syracuse, North, 78, 72, 'N');
+  		Game *game0 = new Game(Syracuse, Maryland, 82, 68, 'N');
   		game0->winner();
-  		game0 = new Game(Syracuse, Wake, 72, 71);
-  		game0 = new Game(North, Syracuse, 93, 68);
-  		game0 = new Game(Maryland, Wake, 81, 72);
-  		game0 = new Game(North, Wake, 68, 52);
+  		game0 = new Game(Syracuse, Wake, 72, 71, 'N');
+  		game0 = new Game(North, Syracuse, 93, 68, 'N');
+  		game0 = new Game(Maryland, Wake, 81, 72, 'N');
+  		game0 = new Game(North, Wake, 68, 52, 'N');
   	}
 
 };
