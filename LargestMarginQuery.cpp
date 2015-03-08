@@ -13,6 +13,12 @@ using namespace std;
 // Register class with the Query Factory
 REGISTER_QUERY_CLASS("largestMargin", LargestMarginQuery);
 
+LargestMarginQuery::LargestMarginQuery()
+{
+	_numberOfArguments = 0;
+	_usageMessage = "Usage: ./madness largestMargin <season>";
+}
+
 std::vector<std::string> LargestMarginQuery::operator()(std::map<int, Team *> teams, std::vector<std::string> arguments)
 {
 	assert(arguments.size() == 0);

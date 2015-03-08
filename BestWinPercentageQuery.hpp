@@ -8,6 +8,7 @@ using namespace std;
 class BestWinPercentageQuery : public QueryBase
 {
 public:
+	BestWinPercentageQuery();
     virtual std::vector<std::string> operator()(std::map<int, Team *> teams, std::vector<std::string> arguments);
 };
 #endif

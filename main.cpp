@@ -1,13 +1,10 @@
-#include "CSVParser.hpp"
 #include "Team.hpp"
 #include "Game.hpp"
 #include "GameDataAdapter.hpp"
 #include "QueryFactory.hpp"
 #include "QueryBase.hpp"
-#include "RPIChampionQuery.hpp"
 #include <iostream>
 #include <string>
-#include <algorithm>
 #include <map>
 
 using namespace std;
@@ -22,13 +19,6 @@ int main(int argc, char const *argv[])
 
 	string queryType = string(argv[1]);
 
-	if(queryType == "rpiChampion") {
-		if(argc < 3) {
-			cout << "Usage: ./madness rpiChampion <season>" << endl;
-			return 1;
-		}
-	}
-
 	// Create the query
 	auto query = QueryFactory::Instance()->Create(queryType);
 	if(query == nullptr) {
@@ -40,6 +30,12 @@ int main(int argc, char const *argv[])
 	std::vector<string> arguments;
 	if(argc > 3) {
 		arguments = std::vector<string>(argv+3, argv+argc);
+	}
+
+	// Check correct number of arguments given
+	if((int)query->numberOfArguments() != (argc-3)) {
+		cout << query->usageMessage();
+		return 0;
 	}
 
 	// Read in all data using the Data Adapter (filtered by season)
@@ -59,10 +55,20 @@ int main(int argc, char const *argv[])
 		return 1;
 	}
 
-	// Run query and Display the results
+	// Run query
 	auto results = (*query)(teams, arguments);
-	for (std::vector<string>::iterator i = results.begin(); i != results.end(); ++i)
-		cout << *i << endl;
+
+	// Check for query error
+	if(query->good()) {
+		// Display results
+		for (std::vector<string>::iterator i = results.begin(); i != results.end(); ++i)
+			cout << *i << endl;		
+	} else {
+		// Show error message
+		cout << "There was an error running the query." << endl;
+		cout << query->error() << endl;
+		return 1;
+	}
 
 	return 0;
 }

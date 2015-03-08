@@ -8,6 +8,12 @@ using namespace std;
 // Register class with the Query Factory
 REGISTER_QUERY_CLASS("rpiChampion", RPIChampionQuery);
 
+RPIChampionQuery::RPIChampionQuery()
+{
+	_numberOfArguments = 0;
+	_usageMessage = "Usage: ./madness rpiChampion <season>";
+}
+
 std::vector<std::string> RPIChampionQuery::operator()(std::map<int, Team *> teams, std::vector<std::string> arguments)
 {
 	assert(arguments.size() == 0);

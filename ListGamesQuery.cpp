@@ -12,9 +12,16 @@ using namespace std;
 // Register class with the Query Factory
 REGISTER_QUERY_CLASS("list", ListGamesQuery);
 
+ListGamesQuery::ListGamesQuery()
+{
+	_numberOfArguments = 1;
+	_usageMessage = "Usage: ./madness list <season> <team name>";
+}
+
 std::vector<std::string> ListGamesQuery::operator()(std::map<int, Team *> teams, std::vector<std::string> arguments)
 {
 	assert(arguments.size() == 1);
+	std::vector<string> results;
 
 	string teamName = arguments[0];
 
@@ -23,11 +30,15 @@ std::vector<std::string> ListGamesQuery::operator()(std::map<int, Team *> teams,
 		return a.second->name() == teamName;
 	});
 
-	assert(teamIt != teams.end());
+	// If team not found, give error
+	if(teamIt == teams.end()) {
+		_good = false;
+		_error = "Team not in database.\n";
+		return results;
+	}
 
 	// Build the results
 	Team *team = teamIt->second;
-	std::vector<string> results;
 	std::vector<Game *> gamesPlayed = team->gamesPlayed();
 	for (std::vector<Game *>::iterator i = gamesPlayed.begin(); i != gamesPlayed.end(); i++)
 	{

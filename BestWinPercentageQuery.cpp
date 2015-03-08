@@ -13,6 +13,12 @@ using namespace std;
 // Register class with the Query Factory
 REGISTER_QUERY_CLASS("bestWinPercentage", BestWinPercentageQuery);
 
+BestWinPercentageQuery::BestWinPercentageQuery()
+{
+	_numberOfArguments = 0;
+	_usageMessage = "Usage: ./madness bestWinPercentage <season>";
+}
+
 std::vector<std::string> BestWinPercentageQuery::operator()(std::map<int, Team *> teams, std::vector<std::string> arguments)
 {
 	assert(arguments.size() == 0);

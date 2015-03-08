@@ -8,6 +8,7 @@ using namespace std;
 class RPIChampionQuery : public QueryBase
 {
 public:
+	RPIChampionQuery();
     virtual std::vector<std::string> operator()(std::map<int, Team *> teams, std::vector<std::string> arguments);
 };
 #endif

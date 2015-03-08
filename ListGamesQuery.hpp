@@ -8,6 +8,7 @@ using namespace std;
 class ListGamesQuery : public QueryBase
 {
 public:
+	ListGamesQuery();
     virtual std::vector<std::string> operator()(std::map<int, Team *> teams, std::vector<std::string> arguments);
 };
 #endif

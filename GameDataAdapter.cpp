@@ -5,6 +5,7 @@
 #include <map>
 #include <cstdlib>
 #include <string>
+#include <cassert>
 
 using namespace std;
 
@@ -79,6 +80,7 @@ GameDataAdapter::GameDataAdapter(string season)
 		if(row.size() && row[0] == seasonId) {
 			// cout << teams[atoi(row[2].c_str())]->name() << " vs " << teams[atoi(row[4].c_str())]->name() << endl;
 			Game *game = new Game(teams[atoi(row[2].c_str())], teams[atoi(row[4].c_str())], atoi(row[3].c_str()), atoi(row[5].c_str()), row[6].c_str()[0]);
+			assert(game != NULL);
 			gamesCount++;
 		}
 	}
