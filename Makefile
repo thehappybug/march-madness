@@ -98,6 +98,9 @@ FinalRecordQuery.o : $(USER_DIR)/FinalRecordQuery.cpp $(USER_DIR)/FinalRecordQue
 BestWinPercentageQuery.o : $(USER_DIR)/BestWinPercentageQuery.cpp $(USER_DIR)/BestWinPercentageQuery.hpp $(USER_DIR)/QueryBase.hpp $(USER_DIR)/QueryFactory.hpp  $(USER_DIR)/Game.hpp $(USER_DIR)/Team.hpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/BestWinPercentageQuery.cpp
 
+LargestMarginQuery.o : $(USER_DIR)/LargestMarginQuery.cpp $(USER_DIR)/LargestMarginQuery.hpp $(USER_DIR)/QueryBase.hpp $(USER_DIR)/QueryFactory.hpp  $(USER_DIR)/Game.hpp $(USER_DIR)/Team.hpp $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/LargestMarginQuery.cpp
+
 main.o : $(USER_DIR)/main.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/main.cpp
 
@@ -111,5 +114,5 @@ ifndef GTEST_DIR
 endif
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
-main: Team.o Game.o CSVParser.o GameDataAdapter.o main.o QueryFactory.o RPIChampionQuery.o ListGamesQuery.o FinalRecordQuery.o BestWinPercentageQuery.o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o madness main.o Team.o Game.o CSVParser.o GameDataAdapter.o QueryFactory.o RPIChampionQuery.o ListGamesQuery.o FinalRecordQuery.o BestWinPercentageQuery.o
+main: Team.o Game.o CSVParser.o GameDataAdapter.o main.o QueryFactory.o RPIChampionQuery.o ListGamesQuery.o FinalRecordQuery.o BestWinPercentageQuery.o LargestMarginQuery.o
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o madness main.o Team.o Game.o CSVParser.o GameDataAdapter.o QueryFactory.o RPIChampionQuery.o ListGamesQuery.o FinalRecordQuery.o BestWinPercentageQuery.o LargestMarginQuery.o
