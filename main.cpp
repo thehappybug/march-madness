@@ -2,6 +2,9 @@
 #include "Team.hpp"
 #include "Game.hpp"
 #include "GameDataAdapter.hpp"
+#include "QueryFactory.hpp"
+#include "QueryBase.hpp"
+#include "RPIChampionQuery.hpp"
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -25,10 +28,8 @@ int main(int argc, char const *argv[])
 			return 1;
 		}
 
+		// Read in all data using the Data Adapter (filtered by season)
 		string seasonName(argv[2]);
-
-		// Read in all data using the Data Adapter
-		// Data is filtered by season.
 		std::map<int, Team *> teams;
 		GameDataAdapter dataAdapter(seasonName);
 		if(dataAdapter.good()) {
@@ -44,23 +45,16 @@ int main(int argc, char const *argv[])
 			return 1;
 		}
 
+		// Package arguments into a vector
+		std::vector<string> arguments;
 
-		Team *champ = NULL;
-		float max = -1;
+		// Run the query on the data
+		auto query = QueryFactory::Instance()->Create("RPIChampion");
+		auto results = (*query)(teams, arguments);
 
-		for_each(teams.begin(), teams.end(), [&champ, &max](pair<int, Team *> a) {
-			// cout << a.second->ratingsPercentageIndex() ;
-			// cout << champ->ratingsPercentageIndex() ;
-			// cout << a.second->name() << " " << a.second->ratingsPercentageIndex() << ", " << a.second->winningPercentage() << ", " << a.second->opponentsWinningPercentage() << ", " << a.second->opponentsOpponentsWinningPercentage() << endl;
-			if(a.second->ratingsPercentageIndex() > max) {
-				champ = a.second;
-				max = a.second->ratingsPercentageIndex();
-				// cout << a.second->name() << endl;
-			}
-		});
-
-		// cout << champ->name() << " " << champ->ratingsPercentageIndex() << endl;
-		cout << champ->name()<< endl;
+		// Display the results
+		for (std::vector<string>::iterator i = results.begin(); i != results.end(); ++i)
+			cout << *i << endl;
 	}
 	return 0;
 }
