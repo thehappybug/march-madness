@@ -92,6 +92,9 @@ RPIChampionQuery.o : $(USER_DIR)/RPIChampionQuery.cpp $(USER_DIR)/RPIChampionQue
 ListGamesQuery.o : $(USER_DIR)/ListGamesQuery.cpp $(USER_DIR)/ListGamesQuery.hpp $(USER_DIR)/QueryBase.hpp $(USER_DIR)/QueryFactory.hpp  $(USER_DIR)/Game.hpp $(USER_DIR)/Team.hpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/ListGamesQuery.cpp
 
+FinalRecordQuery.o : $(USER_DIR)/FinalRecordQuery.cpp $(USER_DIR)/FinalRecordQuery.hpp $(USER_DIR)/QueryBase.hpp $(USER_DIR)/QueryFactory.hpp  $(USER_DIR)/Game.hpp $(USER_DIR)/Team.hpp $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/FinalRecordQuery.cpp
+
 main.o : $(USER_DIR)/main.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/main.cpp
 
@@ -105,5 +108,5 @@ ifndef GTEST_DIR
 endif
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
-main: Team.o Game.o CSVParser.o GameDataAdapter.o main.o QueryFactory.o RPIChampionQuery.o ListGamesQuery.o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o madness main.o Team.o Game.o CSVParser.o GameDataAdapter.o QueryFactory.o RPIChampionQuery.o ListGamesQuery.o
+main: Team.o Game.o CSVParser.o GameDataAdapter.o main.o QueryFactory.o RPIChampionQuery.o ListGamesQuery.o FinalRecordQuery.o
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o madness main.o Team.o Game.o CSVParser.o GameDataAdapter.o QueryFactory.o RPIChampionQuery.o ListGamesQuery.o FinalRecordQuery.o
