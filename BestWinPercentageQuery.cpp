@@ -19,6 +19,7 @@ BestWinPercentageQuery::BestWinPercentageQuery()
 	_usageMessage = "Usage: ./madness bestWinPercentage <season>";
 }
 
+// Find the team with the best win percentage in a season.
 std::vector<std::string> BestWinPercentageQuery::operator()(std::map<int, Team *> teams, std::vector<std::string> arguments)
 {
 	assert(arguments.size() == 0);

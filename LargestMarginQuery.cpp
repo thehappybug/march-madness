@@ -19,6 +19,7 @@ LargestMarginQuery::LargestMarginQuery()
 	_usageMessage = "Usage: ./madness largestMargin <season>";
 }
 
+// Query for finding the team with the largest margin of victory in a season
 std::vector<std::string> LargestMarginQuery::operator()(std::map<int, Team *> teams, std::vector<std::string> arguments)
 {
 	assert(arguments.size() == 0);

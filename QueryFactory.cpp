@@ -1,3 +1,10 @@
+/**
+ * Query Factory
+ * 
+ * Based on C++ Object Factory
+ * http://www.codeproject.com/Articles/567242/AplusC-b-bplusObjectplusFactory
+ */
+
 #include "QueryFactory.hpp"
 
 

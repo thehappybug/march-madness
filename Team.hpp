@@ -7,16 +7,15 @@ class Team;
 #include <vector>
 #include <string>
 
+/**
+ * Represents one Team
+ *
+ * Provides useful functions for calculations
+ * of team performance too. Results depends on
+ * the correctness of games data.
+ */
 class Team
 {
-private:
-	int _id;
-	std::string _name;
-	float _owp;
-	float _oowp;
-	float _rpi;
-	std::vector<Game *> _gamesWon;
-	std::vector<Game *> _gamesPlayed;
 public:
 	Team(int id, std::string name);
 	int id();
@@ -31,6 +30,14 @@ public:
 	float opponentsOpponentsWinningPercentage();
 	float ratingsPercentageIndex();
 	~Team();
+private:
+	int _id;
+	std::string _name;
+	float _owp;
+	float _oowp;
+	float _rpi;
+	std::vector<Game *> _gamesWon;
+	std::vector<Game *> _gamesPlayed;
 };
 
 #endif

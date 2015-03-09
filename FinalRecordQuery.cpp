@@ -18,6 +18,7 @@ FinalRecordQuery::FinalRecordQuery()
 	_usageMessage = "Usage: ./madness finalRecord <season> <team name>";
 }
 
+// Query for getting the final record of a team in a season
 std::vector<std::string> FinalRecordQuery::operator()(std::map<int, Team *> teams, std::vector<std::string> arguments)
 {
 	assert(arguments.size() == 1);

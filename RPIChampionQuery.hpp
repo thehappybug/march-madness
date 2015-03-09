@@ -5,6 +5,9 @@
 #include <iostream>
 using namespace std;
 
+/**
+ * Query for finding the teams with the highest RPI in a season
+ */
 class RPIChampionQuery : public QueryBase
 {
 public:

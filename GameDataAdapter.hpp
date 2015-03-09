@@ -5,6 +5,13 @@
 #include <map>
 #include "Team.hpp"
 
+/**
+ * Data adapter
+ *
+ * Converts data read from CSVParser into objects
+ * of Team and Game classes. Resulting data resembles
+ * something like a graph.
+ */
 class GameDataAdapter
 {
 public:

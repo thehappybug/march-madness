@@ -18,6 +18,7 @@ ListGamesQuery::ListGamesQuery()
 	_usageMessage = "Usage: ./madness list <season> <team name>";
 }
 
+// Run Query for listing the games with their results for a particular team
 std::vector<std::string> ListGamesQuery::operator()(std::map<int, Team *> teams, std::vector<std::string> arguments)
 {
 	assert(arguments.size() == 1);

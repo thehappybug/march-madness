@@ -5,6 +5,9 @@
 #include <iostream>
 using namespace std;
 
+/**
+ * Find the team with the best win percentage in a season.
+ */
 class BestWinPercentageQuery : public QueryBase
 {
 public:

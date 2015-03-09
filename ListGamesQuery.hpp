@@ -5,6 +5,10 @@
 #include <iostream>
 using namespace std;
 
+/**
+ * Query for listing the games with their results for a particular team
+ * Arguments: teamName
+ */
 class ListGamesQuery : public QueryBase
 {
 public:

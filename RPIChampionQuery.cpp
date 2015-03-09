@@ -14,6 +14,7 @@ RPIChampionQuery::RPIChampionQuery()
 	_usageMessage = "Usage: ./madness rpiChampion <season>";
 }
 
+// Run Query for finding the teams with the highest RPI in a season
 std::vector<std::string> RPIChampionQuery::operator()(std::map<int, Team *> teams, std::vector<std::string> arguments)
 {
 	assert(arguments.size() == 0);

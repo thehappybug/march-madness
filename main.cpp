@@ -11,6 +11,7 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
+	// Check for missing query type argument
 	if(argc < 2) {
 		cout << "Incorrect arguments." << endl;
 		cout << "./madness <command> <arguments, ...>" << endl;
@@ -19,26 +20,27 @@ int main(int argc, char const *argv[])
 
 	string queryType = string(argv[1]);
 
-	// Create the query
+	// Create the query of a specific query type using the factory
 	auto query = QueryFactory::Instance()->Create(queryType);
 	if(query == nullptr) {
 		cout << "Unknown query type" << endl;
 		return 0;
 	}
 
-	// Package arguments into a vector
+	// Package arguments needed by the query into a vector
 	std::vector<string> arguments;
 	if(argc > 3) {
 		arguments = std::vector<string>(argv+3, argv+argc);
 	}
 
-	// Check correct number of arguments given
+	// Check correct number of arguments given match query's
 	if((int)query->numberOfArguments() != (argc-3)) {
 		cout << query->usageMessage();
 		return 0;
 	}
 
-	// Read in all data using the Data Adapter (filtered by season)
+	// Read in all data set using the data adapter 
+	// (filtered by season)
 	string seasonName(argv[2]);
 	std::map<int, Team *> teams;
 	GameDataAdapter dataAdapter(seasonName);
@@ -55,7 +57,7 @@ int main(int argc, char const *argv[])
 		return 1;
 	}
 
-	// Run query
+	// Run the query created earlier on the data set
 	auto results = (*query)(teams, arguments);
 
 	// Check for query error

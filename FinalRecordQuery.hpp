@@ -5,6 +5,10 @@
 #include <iostream>
 using namespace std;
 
+/**
+ * Query for getting the final record of a team in a season
+ * Arguments: teamName
+ */
 class FinalRecordQuery : public QueryBase
 {
 public:

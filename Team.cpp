@@ -28,7 +28,6 @@ string Team::name()
 void Team::addGame(Game *game)
 {
 	if(game->isWinner(this)) {
-		// cout << game->winner()->name() << ", " << game->loser()->name() << endl;
 		_gamesWon.push_back(game);
 	}
 	_gamesPlayed.push_back(game);
@@ -91,16 +90,12 @@ float Team::winningPercentageExcluding(Team *excludedTeam)
 	float played = 0;
 	for (std::vector<Game *>::iterator i = _gamesPlayed.begin(); i != _gamesPlayed.end(); ++i)
 	{
-		// cout << (*i)->winner()->name() << ", " << (*i)->loser()->name();
 		if(!((*i)->isPlayer(excludedTeam))) {
 			played++;
-			// cout << " Played ";
 			if(((*i)->isWinner(this))) {
 				won++;
-				// cout << " Won ";
 			}
 		}
-		// cout << endl;
 	}
 	return played ? won / played  : 0;
 }
@@ -112,11 +107,9 @@ float Team::opponentsWinningPercentage()
 	std::vector<float> wps;
 	wps.resize(_gamesPlayed.size());
 	std::transform(_gamesPlayed.begin(), _gamesPlayed.end(), wps.begin(), [this](Game *game) { 
-		// cout << game->otherPlayer(this)->name() << ", " << this->name() << " " << game->otherPlayer(this)->winningPercentageExcluding(this) << endl; 
 		return game->otherPlayer(this)->winningPercentageExcluding(this);
 	});
 	float sum_wps = std::accumulate(wps.begin(), wps.end(), 0.0);
-	// cout << sum_wps << endl;
 	_owp = sum_wps / wps.size() ;
 	return _owp;
 }
@@ -135,9 +128,7 @@ float Team::opponentsOpponentsWinningPercentage()
 float Team::ratingsPercentageIndex()
 {
 	if (_rpi != -1)
-	{
 		return _rpi;
-	}
 	_rpi = this->weightedWinningPercentage() * 0.25	+
 		   this->opponentsWinningPercentage() * 0.5 +
 		   this->opponentsOpponentsWinningPercentage() * 0.25;

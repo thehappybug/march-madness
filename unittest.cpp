@@ -8,22 +8,26 @@
  * CSV Parser Tests
  */
 
+// Check whether the test file can be opened
 TEST(CSVParserTests, OpenFile) {
 	CSVParser parse("data/test.csv");
 	ASSERT_TRUE(parse.good());
 }
 
+// Check whether bad file causes error
 TEST(CSVParserTests, OpenFileShouldFail) {
 	CSVParser parse("data/test1209i09aid0is09da.csv");
 	EXPECT_TRUE(parse.fail());
 }
 
+// Read a single row
 TEST(CSVParserTests, SimpleReadRow) {
 	CSVParser parse("data/test.csv");
 	std::vector<std::string> row = parse.next();
 	EXPECT_NE(row.size(), 0);
 }
 
+// Traversing the whole file
 TEST(CSVParserTests, ReadingWholeData) {
 	CSVParser parse("data/test.csv");
 	std::vector<std::string> row = parse.next();
@@ -41,6 +45,7 @@ TEST(CSVParserTests, ReadingWholeData) {
 	EXPECT_FALSE(parse.good());
 }
 
+// Check whether a row can be skipped
 TEST(CSVParserTests, SkipARow) {
 	CSVParser parse("data/test.csv");
 	parse.skip();
@@ -54,15 +59,17 @@ TEST(CSVParserTests, SkipARow) {
  * Team and Game tests
  */
 
- class TeamGameTests : public ::testing::Test {
+// Setup environment for tests
+class TeamGameTests : public ::testing::Test {
 
- protected:
+protected:
  	Team *Syracuse;
  	Team *North;
  	Team *Maryland;
  	Team *Wake;
  	Game *game;
 
+ 	// Setup new teams and add games
   	virtual void SetUp() {
   		Syracuse = new Team(0, "Syracuse");
   		North = new Team(1, "North Carolina");
@@ -80,6 +87,7 @@ TEST(CSVParserTests, SkipARow) {
 
 };
 
+// Check team creation
 TEST_F(TeamGameTests, CreatingTeams) {
 	EXPECT_EQ(Syracuse->id(), 0);
 	EXPECT_STREQ(Syracuse->name().c_str(), "Syracuse");
@@ -91,6 +99,7 @@ TEST_F(TeamGameTests, CreatingTeams) {
 	EXPECT_STREQ(Wake->name().c_str(), "Wake Forest");
 }
 
+// Check calculation of winning percentages
 TEST_F(TeamGameTests, CalculatingWinningPercentage) {
 	EXPECT_FLOAT_EQ(Syracuse->winningPercentage(), 0.75);
 	EXPECT_FLOAT_EQ(North->winningPercentage(), 2.0/3.0);
@@ -98,12 +107,14 @@ TEST_F(TeamGameTests, CalculatingWinningPercentage) {
 	EXPECT_FLOAT_EQ(Wake->winningPercentage(), 0.0);
 }
 
+// Check calculation of winning percentages that exclude a particular team
 TEST_F(TeamGameTests, CalculatingWinningPercentageExclude) {
 	EXPECT_FLOAT_EQ(North->winningPercentageExcluding(Syracuse), 1.0);
 	EXPECT_FLOAT_EQ(Maryland->winningPercentageExcluding(Syracuse), 1.0);
 	EXPECT_FLOAT_EQ(Wake->winningPercentageExcluding(Syracuse), 0.0);
 }
 
+// Check calculation of opponents' winning percentage
 TEST_F(TeamGameTests, CalculatingOpponentsWinningPercentage) {
 	EXPECT_NEAR(Syracuse->opponentsWinningPercentage(), 0.75, 0.0001);
 	EXPECT_NEAR(North->opponentsWinningPercentage(), 0.666667, 0.0001);
@@ -111,6 +122,7 @@ TEST_F(TeamGameTests, CalculatingOpponentsWinningPercentage) {
 	EXPECT_NEAR(Wake->opponentsWinningPercentage(), 0.388889, 0.0001);
 }
 
+// Check calculation of opponents' opponents' winning percentage
 TEST_F(TeamGameTests, CalculatingOpponentsOpponentsWinningPercentage) {
 	EXPECT_NEAR(Syracuse->opponentsOpponentsWinningPercentage(), 0.513889, 0.0001);
 	EXPECT_NEAR(North->opponentsOpponentsWinningPercentage(), 0.62963, 0.0001);
@@ -118,6 +130,7 @@ TEST_F(TeamGameTests, CalculatingOpponentsOpponentsWinningPercentage) {
 	EXPECT_NEAR(Wake->opponentsOpponentsWinningPercentage(), 0.583333, 0.0001);
 }
 
+// Calculate a team's RPI
 TEST_F(TeamGameTests, CalculatingRPI) {
 	EXPECT_NEAR(Syracuse->ratingsPercentageIndex(), 0.690972, 0.0001);
 	EXPECT_NEAR(North->ratingsPercentageIndex(), 0.657407, 0.0001);
